@@ -1,0 +1,28 @@
+{# templates/planing/index.html.twig #}
+{% extends 'layout.html.twig' %}
+
+{% block title %}Домашняя страница{% endblock %}
+
+{% block header %}
+    Добро пожаловать на первую страницу Symfony в разделе планирования
+{% endblock %}
+
+{% block content %}
+    <div>
+        <h2>Create form</h2>
+        {{ form(form) }}
+    </div>
+    <div>
+        <ul>
+            {% for plan in plans %}
+                <li>
+                    <a href="{{ path('plan_view', { 'uuid': plan.uuid }) }}">{{ plan.name }}</a>
+                    <a href="{{ path('plan_update', { 'uuid': plan.uuid }) }}">Update</a>
+                    <a href="{{ path('plan_delete', { 'uuid': plan.uuid }) }}">Delete</a>
+                </li>
+            {% else %}
+                <li>Нет планов</li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}

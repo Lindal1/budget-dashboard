@@ -1,0 +1,10 @@
+{# exdent from layout #}
+{% extends 'layout.html.twig' %}
+
+{% block header %}Create Plan{% endblock %}
+
+{% block content %}
+    <a href="{{ path('plan_list') }}">Back</a>
+
+    {{ form(form) }}
+{% endblock %}

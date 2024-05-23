@@ -1,0 +1,34 @@
+{# templates/index.html.twig #}
+{% extends 'layout.html.twig' %}
+
+{% block title %}Домашняя страница{% endblock %}
+
+{% block header %}
+
+{% endblock %}
+
+{% block content %}
+    <div>
+        <h2>Create Category</h2>
+        {{ form(form) }}
+    </div>
+
+    <div>
+        <h2>Categories</h2>
+        {% if categories is empty %}
+            <p>No categories</p>
+        {% else %}
+            <ul>
+                {% for category in categories %}
+                    <li>
+                        {{ category.name }}
+                        <a href="{{ path('category_update', { 'uuid': category.uuid }) }}">Edit</a>
+                        <a href="{{ path('category_delete', { 'uuid': category.uuid }) }}">Delete</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+    </div>
+
+{% endblock %}

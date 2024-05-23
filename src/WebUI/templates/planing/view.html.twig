@@ -1,0 +1,58 @@
+{# templates/planing/show.html.twig #}
+{% extends 'layout.html.twig' %}
+
+{# Plan information #}
+{% block title %}{{ plan.name }}{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h1>{{ plan.name }}</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <table class="table">
+                    <tr>
+                        <th>Category</th>
+                        {% for month in table.getMonths() %}
+                            <th>{{ (month.month ~ '/01/2023')|date('F') }}</th>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>Incomes</td>
+                    </tr>
+                    {% for category in table.getIncomeCategories() %}
+                        <tr>
+                            <td>{{ category.name }}</td>
+                            {% for month in table.getMonths() %}
+                                <td>
+                                    {{ table.getIncomeFor(category, month) }}
+                                </td>
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                    <tr>
+                        <td>Expenses</td>
+                    </tr>
+                    {% for category in table.getExpenseCategories() %}
+                        <tr>
+                            <td>{{ category.name }}</td>
+                            {% for month in table.getMonths() %}
+                                <td>
+                                    {{ table.getExpenseFor(category, month) }}
+                                </td>
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                {{ form(setValueForm) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,5 @@
+controllers:
+    resource:
+        path: ../src/WebUI/Controller/
+        namespace: App\WebUI\Controller
+    type: attribute
