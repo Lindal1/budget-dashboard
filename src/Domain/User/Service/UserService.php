@@ -3,10 +3,10 @@ declare(strict_types=1);
 
 namespace App\Domain\User\Service;
 
+use App\Domain\Shared\Exception\ValidationException;
 use App\Domain\User\Entity\User;
 use App\Domain\User\Event\UserEvent;
 use App\Domain\User\Repository\UserRepositoryInterface;
-use App\Shared\Exception\ValidationException;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 

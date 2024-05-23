@@ -5,7 +5,7 @@ namespace App\Domain\Auth\Service;
 
 use App\Domain\Auth\Entity\LoginAuth;
 use App\Domain\Auth\Repository\LoginRepositoryInterface;
-use App\Shared\Exception\ValidationException;
+use App\Domain\Shared\Exception\ValidationException;
 use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
