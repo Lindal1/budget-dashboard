@@ -21,11 +21,11 @@ readonly class PlanValueResolver implements ValueResolverInterface
 
     public function resolve(Request $request, ArgumentMetadata $argument): iterable
     {
-        if ($argument->getType() !== Plan::class || !$request->attributes->has('uuid')) {
+        if ($argument->getType() !== Plan::class || !$request->attributes->has('plan_uuid')) {
             return [];
         }
 
-        $plan = $this->planRepository->getByUuid(Uuid::fromString($request->attributes->get('uuid')));
+        $plan = $this->planRepository->getByUuid(Uuid::fromString($request->attributes->get('plan_uuid')));
         if ($plan === null) {
             throw new NotFoundHttpException('Plan not found');
         }

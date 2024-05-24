@@ -5,14 +5,14 @@ namespace App\Infrastructure\Planing;
 
 use App\Domain\Planing\Entity\Value;
 use App\Domain\Planing\ValueObject\Month;
-use App\Infrastructure\Category\CategoryMapping;
+use App\Infrastructure\Category\CategoryMapper;
 use App\Infrastructure\ORM\Doctrine\Entity\PlanValue;
 
 readonly class ValueMapper
 {
     public function __construct(
-        private CategoryMapping $categoryMapping,
-        private PlanMapper      $planMapper,
+        private CategoryMapper $categoryMapping,
+        private PlanMapper     $planMapper,
     )
     {
     }

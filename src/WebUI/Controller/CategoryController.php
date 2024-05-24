@@ -55,7 +55,7 @@ class CategoryController extends AbstractController
         );
     }
 
-    #[Route(path: '/category/{uuid}/delete', name: 'category_delete', requirements: ['uuid' => \Ramsey\Uuid\Uuid::VALID_PATTERN], methods: ['GET'])]
+    #[Route(path: '/category/{category_uuid}/delete', name: 'category_delete', requirements: ['category_uuid' => \Ramsey\Uuid\Uuid::VALID_PATTERN], methods: ['GET'])]
     public function delete(
         CategoryRepositoryInterface $categoryRepository,
         Category                    $category,
@@ -66,7 +66,7 @@ class CategoryController extends AbstractController
         return $this->redirectToRoute('category_list');
     }
 
-    #[Route(path: '/category/{uuid}/update', name: 'category_update', requirements: ['uuid' => \Ramsey\Uuid\Uuid::VALID_PATTERN], methods: ['GET', 'POST'])]
+    #[Route(path: '/category/{category_uuid}/update', name: 'category_update', requirements: ['category_uuid' => \Ramsey\Uuid\Uuid::VALID_PATTERN], methods: ['GET', 'POST'])]
     public function update(
         CategoryRepositoryInterface $categoryRepository,
         Category                    $category,

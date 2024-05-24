@@ -14,7 +14,7 @@ class CategoryRepository implements CategoryRepositoryInterface
 {
     public function __construct(
         private readonly EntityManagerInterface $entityManager,
-        private readonly CategoryMapping        $categoryMapping,
+        private readonly CategoryMapper         $categoryMapping,
     )
     {
     }

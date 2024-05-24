@@ -10,7 +10,7 @@ use App\Infrastructure\ORM\Doctrine\Entity\User;
 use App\Infrastructure\ORM\Doctrine\Enum\CategoryType as DoctrineCategoryType;
 use Doctrine\ORM\EntityManagerInterface;
 
-class CategoryMapping
+class CategoryMapper
 {
     public function __construct(
         private readonly EntityManagerInterface $entityManager,

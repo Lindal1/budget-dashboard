@@ -1,0 +1,6 @@
+.edit-icon:before {
+    content: "\f044"; /* Код иконки редактирования в Font Awesome */
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    cursor: pointer;
+}

@@ -7,7 +7,7 @@ use App\Domain\Planing\Entity\Value;
 
 interface ValueRepositoryInterface
 {
-    public function save(Value $value): void;
+    public function set(Value $value): void;
 
     public function delete(Value $value): void;
 

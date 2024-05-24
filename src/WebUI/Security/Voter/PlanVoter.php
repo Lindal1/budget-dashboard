@@ -4,17 +4,18 @@ declare(strict_types=1);
 namespace App\WebUI\Security\Voter;
 
 use App\Domain\Category\Entity\Category;
+use App\Domain\Planing\Entity\Plan;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 
-class CategoryVoter implements VoterInterface
+class PlanVoter implements VoterInterface
 {
-    private const ATTRIBUTES = ['update', 'delete'];
+    private const ATTRIBUTES = ['update', 'delete', 'view'];
 
     public function vote(TokenInterface $token, mixed $subject, array $attributes): int
     {
-        if (!$subject instanceof Category) {
+        if (!$subject instanceof Plan) {
             return self::ACCESS_ABSTAIN;
         }
 

@@ -34,7 +34,7 @@ class PlanTable
 
     public function getIncomeFor(Category $category, Month $month): float
     {
-        return round(($this->incomes[$category->uuid->toString()][$month->month . '-' . $month->year] ?? 0) / 100, 2);
+        return round(($this->incomes[$category->uuid->toString()][$month->year . '-' . $month->month] ?? 0) / 100, 2);
     }
 
     public function getExpenseFor(Category $category, Month $month): float

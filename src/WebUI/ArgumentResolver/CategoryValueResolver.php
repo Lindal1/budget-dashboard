@@ -21,16 +21,16 @@ class CategoryValueResolver implements ValueResolverInterface
 
     public function resolve(Request $request, ArgumentMetadata $argument): iterable
     {
-        if ($argument->getType() !== Category::class || !$request->attributes->has('uuid')) {
+        if ($argument->getType() !== Category::class || !$request->attributes->has('category_uuid')) {
             return [];
         }
 
         $category = $this->categoryRepository->getByUuid(
-            Uuid::fromString($request->attributes->get('uuid'))
+            Uuid::fromString($request->attributes->get('category_uuid'))
         );
 
         if (!$category && !$argument->isNullable()) {
-            throw new NotFoundHttpException(sprintf('Category %s not found', $request->attributes->get('uuid')));
+            throw new NotFoundHttpException(sprintf('Category %s not found', $request->attributes->get('category_uuid')));
         }
 
         yield $category;
