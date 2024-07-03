@@ -5,41 +5,24 @@ namespace App\WebUI\Dto\Planing;
 
 use App\Domain\Category\Entity\Category;
 use App\Domain\Category\Enum\CategoryType;
+use App\Domain\Planing\Entity\Value;
 use App\Domain\Planing\ValueObject\Month;
 use App\Domain\Planing\ValueObject\Period;
+use http\Encoding\Stream\Deflate;
 
 class PlanTable
 {
-    private array $incomes = [];
-    private array $expenses = [];
-
-    private array $incomeCategories = [];
-    private array $expenseCategories = [];
-
     public function __construct(
         public Period $period,
+        private array $categories = [],
+        private array $values = [],
     )
     {
     }
 
-    public function addIncome(Category $category, Month $month, int $value): void
+    public function getValueFor(Category $category, Month $month): float
     {
-        $this->incomes[$category->uuid->toString()][$month->year . '-' . $month->month] = $value;
-    }
-
-    public function addExpense(Category $category, Month $month, int $value): void
-    {
-        $this->expenses[$category->uuid->toString()][$month->year . '-' . $month->month] = $value;
-    }
-
-    public function getIncomeFor(Category $category, Month $month): float
-    {
-        return round(($this->incomes[$category->uuid->toString()][$month->year . '-' . $month->month] ?? 0) / 100, 2);
-    }
-
-    public function getExpenseFor(Category $category, Month $month): float
-    {
-        return round(($this->expenses[$category->uuid->toString()][$month->month . '-' . $month->year] ?? 0) / 100, 2);
+        return $this->values[$category->uuid->toString()][$this->getMonthKey($month)] ?? 0;
     }
 
     /**
@@ -65,24 +48,84 @@ class PlanTable
 
     public function getIncomeCategories(): array
     {
-        return $this->incomeCategories;
+        return array_reduce($this->categories, function ($carry, Category $category) {
+            if ($category->type === CategoryType::Income) {
+                $carry[] = $category;
+            }
+
+            return $carry;
+        }, []);
     }
 
     public function getExpenseCategories(): array
     {
-        return $this->expenseCategories;
+        return array_reduce($this->categories, function ($carry, Category $category) {
+            if ($category->type === CategoryType::Expense) {
+                $carry[] = $category;
+            }
+
+            return $carry;
+        }, []);
+    }
+
+    public function getSumExpenseByMonth(Month $month): float
+    {
+        $categories = $this->getExpenseCategories();
+        $result = 0;
+        foreach ($categories as $category) {
+            $result += $this->getValueFor($category, $month);
+        }
+
+        return $result;
+    }
+
+    public function getSumIncomeByMonth(Month $month): float
+    {
+        $categories = $this->getIncomeCategories();
+        $result = 0;
+        foreach ($categories as $category) {
+            $result += $this->getValueFor($category, $month);
+        }
+
+        return $result;
+
+    }
+
+    public function getSumByCategory(Category $category): float
+    {
+        $months = $this->getMonths();
+        $result = 0;
+        foreach ($months as $month) {
+            $result += $this->getValueFor($category, $month);
+        }
+
+        return $result;
+    }
+
+    public function getAvgByCategory(Category $category): float
+    {
+        $months = $this->getMonths();
+        $result = 0;
+        foreach ($months as $month) {
+            $result += $this->getValueFor($category, $month);
+        }
+
+        return $result / count($months);
     }
 
     /**
-     * @param Category[] $categories
+     * @param Value[] $values
+     * @return void
      */
-    public function setCategories(array $categories): void
+    public function setValues(array $values): void
     {
-        foreach ($categories as $category) {
-            match ($category->type) {
-                CategoryType::Income => $this->incomeCategories[$category->uuid->toString()] = $category,
-                CategoryType::Expense => $this->expenseCategories[$category->uuid->toString()] = $category,
-            };
+        foreach ($values as $value) {
+            $this->values[$value->category->uuid->toString()][$this->getMonthKey($value->month)] = round($value->value / 100, 2);
         }
+    }
+
+    private function getMonthKey(Month $month): string
+    {
+        return $month->year . '-' . $month->month;
     }
 }

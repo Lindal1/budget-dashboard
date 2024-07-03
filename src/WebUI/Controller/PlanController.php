@@ -54,6 +54,7 @@ class PlanController extends AbstractController
     public function view(
         Plan        $plan,
         PlanService $planService,
+        Request     $request,
     ): Response
     {
         $this->denyAccessUnlessGranted('view', $plan);
@@ -68,6 +69,7 @@ class PlanController extends AbstractController
             [
                 'plan' => $plan,
                 'table' => $planService->getTable($plan, $period),
+                'editMode' => $request->query->getBoolean('edit'),
             ]
         );
     }

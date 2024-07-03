@@ -18,16 +18,21 @@ class Category
             ORM\Id,
             ORM\Column(type: 'uuid'),
         ]
-        public readonly UuidInterface $uuid,
+        public UuidInterface  $uuid,
         #[
             ORM\ManyToOne(targetEntity: 'User'),
             ORM\JoinColumn(name: 'user', referencedColumnName: 'uuid'),
         ]
-        public User                   $user,
+        public User           $user,
         #[ORM\Column(type: 'string', enumType: CategoryType::class)]
-        public CategoryType           $type,
+        public CategoryType   $type,
         #[ORM\Column(type: 'string')]
-        public string                 $name,
+        public string         $name,
+        #[
+            ORM\ManyToOne(targetEntity: 'CategoryGroup'),
+            ORM\JoinColumn(name: 'group', referencedColumnName: 'uuid'),
+        ]
+        public ?CategoryGroup $group = null,
     )
     {
     }

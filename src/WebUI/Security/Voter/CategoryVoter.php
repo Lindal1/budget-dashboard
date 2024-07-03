@@ -24,7 +24,7 @@ class CategoryVoter implements VoterInterface
             return self::ACCESS_ABSTAIN;
         }
 
-        return $subject->userUuid->toString() === $token->getUser()->getUserIdentifier()
+        return $subject->userId->toString() === $token->getUser()->getUserIdentifier()
             ? self::ACCESS_GRANTED
             : self::ACCESS_DENIED;
     }

@@ -9,6 +9,11 @@
         <div class="row">
             <div class="col-12">
                 <h1>{{ plan.name }}</h1>
+                {% if editMode == false %}
+                    <a href="{{ path('plan_view', { 'plan_uuid': plan.uuid, 'edit': true }) }}">Edit</a>
+                {% else %}
+                    <a href="{{ path('plan_view', { 'plan_uuid': plan.uuid }) }}">View</a>
+                {% endif %}
             </div>
         </div>
         <div class="row">
@@ -19,6 +24,8 @@
                         {% for month in table.getMonths() %}
                             <th>{{ (month.month ~ '/01/2023')|date('F') }}</th>
                         {% endfor %}
+                        <th>Avg</th>
+                        <th>Total</th>
                     </tr>
                     <tr>
                         <td>Incomes</td>
@@ -28,14 +35,30 @@
                             <td>{{ category.name }}</td>
                             {% for month in table.getMonths() %}
                                 <td>
-                                    <span class="value">{{ table.getIncomeFor(category, month) }}</span>
-                                    <i class="fas fa-edit edit-icon" data-plan-uuid="{{ plan.uuid }}"
-                                       data-category-uuid="{{ category.uuid }}" data-month="{{ month.month }}"
-                                       data-year="{{ month.year }}"></i>
+                                    <span class="value">{{ table.getValueFor(category, month) }}</span>
+                                    {% if editMode == true %}
+                                        <i class="fas fa-edit edit-icon" data-plan-uuid="{{ plan.uuid }}"
+                                           data-category-uuid="{{ category.uuid }}" data-month="{{ month.month }}"
+                                           data-year="{{ month.year }}"></i>
+                                    {% endif %}
                                 </td>
                             {% endfor %}
+                            <td>
+                                <span class="value">{{ table.getAvgByCategory(category) }}</span>
+                            </td>
+                            <td>
+                                <span class="value">{{ table.getSumByCategory(category) }}</span>
+                            </td>
                         </tr>
                     {% endfor %}
+                    <tr>
+                        <td></td>
+                        {% for month in table.getMonths() %}
+                            <td>
+                                <span class="value">{{ table.getSumIncomeByMonth(month) }}</span>
+                            </td>
+                        {% endfor %}
+                    </tr>
                     <tr>
                         <td>Expenses</td>
                     </tr>
@@ -44,14 +67,30 @@
                             <td>{{ category.name }}</td>
                             {% for month in table.getMonths() %}
                                 <td>
-                                    <span class="value">{{ table.getExpenseFor(category, month) }}</span>
-                                    <i class="fas fa-edit edit-icon" data-plan-uuid="{{ plan.uuid }}"
-                                       data-category-uuid="{{ category.uuid }}" data-month="{{ month.month }}"
-                                       data-year="{{ month.year }}"></i>
+                                    <span class="value">{{ table.getValueFor(category, month) }}</span>
+                                    {% if editMode == true %}
+                                        <i class="fas fa-edit edit-icon" data-plan-uuid="{{ plan.uuid }}"
+                                           data-category-uuid="{{ category.uuid }}" data-month="{{ month.month }}"
+                                           data-year="{{ month.year }}"></i>
+                                    {% endif %}
                                 </td>
                             {% endfor %}
+                            <td>
+                                <span class="value">{{ table.getAvgByCategory(category) }}</span>
+                            </td>
+                            <td>
+                                <span class="value">{{ table.getSumByCategory(category) }}</span>
+                            </td>
                         </tr>
                     {% endfor %}
+                    <tr>
+                        <td></td>
+                        {% for month in table.getMonths() %}
+                            <td>
+                                <span class="value">{{ table.getSumExpenseByMonth(month) }}</span>
+                            </td>
+                        {% endfor %}
+                    </tr>
                 </table>
             </div>
         </div>

@@ -16,9 +16,9 @@
         <ul>
             {% for plan in plans %}
                 <li>
-                    <a href="{{ path('plan_view', { 'uuid': plan.uuid }) }}">{{ plan.name }}</a>
-                    <a href="{{ path('plan_update', { 'uuid': plan.uuid }) }}">Update</a>
-                    <a href="{{ path('plan_delete', { 'uuid': plan.uuid }) }}">Delete</a>
+                    <a href="{{ path('plan_view', { 'plan_uuid': plan.uuid }) }}">{{ plan.name }}</a>
+                    <a href="{{ path('plan_update', { 'plan_uuid': plan.uuid }) }}">Update</a>
+                    <a href="{{ path('plan_delete', { 'plan_uuid': plan.uuid }) }}">Delete</a>
                 </li>
             {% else %}
                 <li>Нет планов</li>

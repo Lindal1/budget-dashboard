@@ -24,11 +24,12 @@ readonly class PlanService
     public function getTable(Plan $plan, Period $period): PlanTable
     {
         $table = new PlanTable(
-            $period
-        );
-
-        $table->setCategories(
-            $this->categoryRepository->search(new CategoryQuery(userUuids: [$plan->userUuid]))
+            $period,
+            $this->categoryRepository->search(
+                new CategoryQuery(
+                    userUuids: [$plan->userUuid],
+                )
+            )
         );
 
         $values = $this->valueRepository->search(
@@ -39,12 +40,7 @@ readonly class PlanService
             )
         );
 
-        foreach ($values as $value) {
-            match ($value->category->type) {
-                CategoryType::Expense => $table->addExpense($value->category, $value->month, $value->value),
-                CategoryType::Income => $table->addIncome($value->category, $value->month, $value->value),
-            };
-        }
+        $table->setValues($values);
 
         return $table;
     }
